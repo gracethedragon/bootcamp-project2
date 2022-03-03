@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=
+  , initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1><%=data[0].name%></h1>
+  <h3>Ingredients</h3>
+  <ul>
+  <% data.forEach(data=>{ %>
+    <li> <%=data.amount%> <%=data.measurement_name%> <%=data.ingredient_name%> (<%=data.ingredient_type%>)</li>
+    <%})%>
+  </ul>
+  <h3>Flavor Profile</h3>
+  <ul>
+    <li>Sweet: <%=Math.round(data[0].sweet*100)%>%</li>
+    <li>Sour: <%=Math.round(data[0].sour*100)%>%</li>
+    <li>Bitter: <%=Math.round(data[0].bitter*100)%>%</li>
+    <li>Savory: <%=Math.round(data[0].savory*100)%>%</li>
+    <li>Spicy: <%=Math.round(data[0].spicy*100)%>%</li>
+    <li>Fruity: <%=Math.round(data[0].fruity*100)%>%</li>
+  </ul>
+  <h3>ABV: <%=Math.round(data[0].overall_abv)%>%</h3>
+  
+</body>
+</html>

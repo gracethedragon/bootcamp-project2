@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<form action="/submit" method="POST">
+  <label for="recipe_name">recipe name</label>
+  <input type="text", name="recipe_name">
+  <hr> 
+<div id="ingredients-container">
+  <div class="ingredient">
+    
+    <label for="ingredient_type">Type</label>
+    <select name="ingredient_type">
+      <option disabled selected value> -- choose one -- </option>
+      <option value="alcohol">Alcohol (ABV: >20%)</option>
+      <option value="liquer">Liquer (ABV: >0%)</option>
+      <option value="mixer">Mixer (ABV: 0%)</option>
+      <option value="garnish">Garnish (ABV: 0%)</option>
+    </select><br />
+    
+    <label for="ingredient_name">Ingredient Name</label>
+    <input type="text" , name="ingredient_name" class="ingredient_name"><br />
+    
+    <label for="ingredient_flavor">Dominant Flavor Profile</label>
+    <select name="ingredient_flavor">
+      <option disabled selected value> -- choose one -- </option>
+      <option value="sweet" >Sweet</option>
+      <option value="sour" >Sour</option>
+      <option value="bitter" >Bitter</option>
+      <option value="savory">Savory</option>
+      <option value="spicy" >Spicy</option>
+      <option value="fruity">Fruity</option>
+    </select><br />
+
+    <input type="text", name="measurement_name", value="ml" hidden>
+
+    <label for="amount">Amount</label>
+    <input type="number" , name="amount"><br />
+    <hr>
+  </div>
+
+  <div class="ingredient">
+  
+    <label for="ingredient_type">Type</label>
+  
+    <select name="ingredient_type">
+      <option disabled selected value> -- choose one -- </option>
+      <option value="alcohol">Alcohol (ABV: >20%)</option>
+      <option value="liquer">Liquer (ABV: >0%)</option>
+      <option value="mixer">Mixer (ABV: 0%)</option>
+      <option value="garnish">Garnish (ABV: 0%)</option>
+    </select><br />
+  
+    <label for="ingredient_name">Ingredient Name</label>
+    <input type="text" , name="ingredient_name"><br />
+  
+    <label for="ingredient_flavor">Dominant Flavor Profile</label>
+    <select name="ingredient_flavor">
+      <option disabled selected value> -- choose one -- </option>
+      <option value="sweet">Sweet</option>
+      <option value="sour">Sour</option>
+      <option value="bitter">Bitter</option>
+      <option value="savory">Savory</option>
+      <option value="spicy">Spicy</option>
+      <option value="fruity">Fruity</option>
+    </select><br />
+  
+    <input type="text" , name="measurement_name" , value="ml" hidden>
+  
+    <label for="amount">Amount</label>
+    <input type="number" , name="amount"><br />
+    <hr>
+  </div>
+</div>
+
+<div>
+
+  <label for="instructions">instructions</label>
+  <input type="text" , name="instructions">
+  <hr>
+
+</div>
+<div>
+  <div>
+    <a href="#" id="filldetails" onclick="addFields()">Add Field</a>
+    <a href="#" id="filldetails" onclick="removeField()">Remove Field</a>
+    <hr>
+  </div>
+  <input type="submit" value="submit">
+</div>
+</form></body>
+<script type="text/javascript">
+  function addFields () {
+    const parent = document.getElementById("ingredients-container")
+
+    const ingredientDiv = document.getElementsByClassName("ingredient")[0]
+
+    const newIngredientDiv = ingredientDiv.cloneNode(true)
+    console.log(ingredientDiv)
+    parent.appendChild(newIngredientDiv)
+  }
+
+  function removeField () {
+    const parent = document.getElementById("ingredients-container")
+
+    if(parent.children.length >2) {
+      parent.removeChild(parent.lastElementChild);
+    }
+
+  }
+
+</script>
+</html>

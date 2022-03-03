@@ -25,7 +25,9 @@
   },
   "type": "module",
   "dependencies": {
+    "axios": "^0.26.0",
     "cookie-parser": "^1.4.6",
+    "cookieparser": "^0.1.0",
     "ejs": "^3.1.5",
     "express": "^4.17.3",
     "jssha": "^3.2.0",
