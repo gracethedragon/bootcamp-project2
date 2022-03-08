@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
+<%-include('header')%>
 <form action="/submit" method="POST">
   <label for="recipe_name">recipe name</label>
   <input type="text", name="recipe_name">
@@ -24,7 +16,7 @@
     </select><br />
     
     <label for="ingredient_name">Ingredient Name</label>
-    <input type="text" , name="ingredient_name" class="ingredient_name"><br />
+    <input type="text" name="ingredient_name" class="ingredient_name" ><br />
     
     <label for="ingredient_flavor">Dominant Flavor Profile</label>
     <select name="ingredient_flavor">
@@ -40,7 +32,7 @@
     <input type="text", name="measurement_name", value="ml" hidden>
 
     <label for="amount">Amount</label>
-    <input type="number" , name="amount"><br />
+    <input type="number" , name="amount">ml<br />
     <hr>
   </div>
 
@@ -73,7 +65,7 @@
     <input type="text" , name="measurement_name" , value="ml" hidden>
   
     <label for="amount">Amount</label>
-    <input type="number" , name="amount"><br />
+    <input type="number" , name="amount">ml<br />
     <hr>
   </div>
 </div>

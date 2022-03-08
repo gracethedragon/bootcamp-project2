@@ -4,13 +4,15 @@
 
 //function to calculate drink overall abv
 export const calcStrength = (amount_arr, abv_arr) =>{
-  console.log(amount_arr, abv_arr)
+  const amount = amount_arr.map(amt_arr=> parseFloat(amt_arr))
+  
+  console.log(amount, abv_arr)
   let alcContent = 0
-  amount_arr.forEach((amount,index)=> {
-    alcContent += amount * abv_arr[index]
+  amount.forEach((amt,index)=> {
+    alcContent += amt * abv_arr[index]
     // console.log(amount,abv_arr[index], amount*abv_arr[index], alcContent)
   })
-  const totalVol = amount_arr.reduce((a,b)=> a+b)
+  const totalVol = amount.reduce((a,b)=> a+b)
   const drinkAbv = alcContent / totalVol * 100
   console.log(totalVol, alcContent, drinkAbv)
   return drinkAbv
@@ -22,9 +24,10 @@ export const calcStrength = (amount_arr, abv_arr) =>{
 
 //function to calculate drink overall flavour type
 export const flavorList = (amount_arr, flavor_arr)=>{
+  const amount = amount_arr.map(amt_arr=> parseFloat(amt_arr))
   const flavObj = {sweet: 0, sour: 0, bitter:0, savory:0, spicy:0, fruity:0, overall_abv:0}
-  const totalVol = amount_arr.reduce((a,b)=> a+b)
-  const amount_arrPerc = amount_arr.map(amount=>(amount/totalVol))
+  const totalVol = amount.reduce((a,b)=> a+b)
+  const amount_arrPerc = amount.map(amt=>(amt/totalVol))
   // console.log(amount_arrPerc)
   flavor_arr.forEach((flavor, index)=>{
   if(flavor!=="alcohol"){

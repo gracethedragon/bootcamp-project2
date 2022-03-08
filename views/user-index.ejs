@@ -1,0 +1,30 @@
+<%-include('header')%>
+
+<%if(userError){%>
+<h1>User does not exist!</h1>
+<%} else {%>
+<h1>Recipes by <%= data[0].username%></h1> 
+
+<div class="dropdown">
+<h6 class="dropdown-toggle" data-bs-toggle="dropdown">Sort by</h6>
+<div class="dropdown-menu">
+  <a href="/users?sort=ascrating" class="dropdown-item">Ratings (lowest to highest)</a>
+  <a href="/users?sort=descrating" class="dropdown-item">Ratings (highest to lowest)</a>
+  <a href="/users?sort=descdate" class="dropdown-item">Date added (newest to oldest))</a>
+  <a href="/users?sort=ascdate" class="dropdown-item">Date added (oldest to newest))</a>
+  <a href="/users?sort=ascreviews" class="dropdown-item">Reviews (lowest to highest)</a>
+  <a href="/users?sort=descreviews" class="dropdown-item">Reviews (highest to lowest)</a>
+  
+</div>
+</div>
+
+<% data.forEach(data=>{ %>
+  <%if(data.reviews > 0) {%>
+  <a href="/recipes/<%=data.id%>"><%=data.name%>, <%=data.rating%>⭐, <%=data.reviews%> reviews</a><br />
+  <%} else {%>
+  <a href="/recipes/<%=data.id%>"><%=data.name%>, yet to be reviewed
+    </a><br />
+<%}})%>
+<%}%>
+</body>
+</html>

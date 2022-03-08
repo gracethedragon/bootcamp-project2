@@ -1,0 +1,81 @@
+<%-include('header')%>
+<form action="/recipes/<%=data[0].recipe_id%>/edit" method="POST">
+  <label for="recipe_name">recipe name</label>
+  <input type="text" name="recipe_name"  value="<%-data[0].name%>">
+  <hr> 
+<div id="ingredients-container">
+  <% data.forEach(ingredient=>{%>
+    <div class="ingredient">
+    
+      <label for="ingredient_type">Type</label>
+      <select name="ingredient_type">
+        <option disabled selected value> -- choose one -- </option>
+        <option value="alcohol" <%if (ingredient.ingredient_type === "alcohol"){%>selected<%}%>>Alcohol (ABV: >20%)</option>
+        <option value="liquer" <%if (ingredient.ingredient_type === "liquer"){%>selected<%}%>>Liquer (ABV: >0%)</option>
+        <option value="mixer" <%if (ingredient.ingredient_type === "mixer"){%>selected<%}%>>Mixer (ABV: 0%)</option>
+        <option value="garnish" <%if (ingredient.ingredient_type === "garnish"){%>selected<%}%>>Garnish (ABV: 0%)</option>
+      </select><br />
+    
+      <label for="ingredient_name">Ingredient Name</label>
+      <input type="text" , name="ingredient_name" class="ingredient_name" value="<%-ingredient.ingredient_name%>"><br />
+    
+      <label for="ingredient_flavor">Dominant Flavor Profile</label>
+      <select name="ingredient_flavor">
+        <option disabled selected value> -- choose one -- </option>
+        <option value="sweet" <%if (ingredient.ingredient_flavor === "sweet"){%>selected<%}%>>Sweet</option>
+        <option value="sour" <%if (ingredient.ingredient_flavor === "sour"){%>selected<%}%>>Sour</option>
+        <option value="bitter" <%if (ingredient.ingredient_flavor === "bitter"){%>selected<%}%>>Bitter</option>
+        <option value="savory" <%if (ingredient.ingredient_flavor === "savory"){%>selected<%}%>>Savory</option>
+        <option value="spicy" <%if (ingredient.ingredient_flavor === "spicy"){%>selected<%}%>>Spicy</option>
+        <option value="fruity" <%if (ingredient.ingredient_flavor === "fruity"){%>selected<%}%>>Fruity</option>
+      </select><br />
+    
+      <input type="text" , name="measurement_name" value="ml" hidden>
+    
+      <label for="amount">Amount</label>
+      <input type="number" name="amount" value="<%-ingredient.amount%>">ml<br />
+      <hr>
+    </div>
+
+ <% })%>
+  
+</div>
+
+<div>
+
+  <label for="instructions">instructions</label>
+  <textarea name="instructions"><%-data[0].instructions%></textarea>
+  <hr>
+
+</div>
+<div>
+  <div>
+    <a href="#" id="filldetails" onclick="addFields()">Add Field</a>
+    <a href="#" id="filldetails" onclick="removeField()">Remove Field</a>
+    <hr>
+  </div>
+  <input type="submit" value="submit">
+</div>
+</form></body>
+<script type="text/javascript">
+  function addFields () {
+    const parent = document.getElementById("ingredients-container")
+
+    const ingredientDiv = document.getElementsByClassName("ingredient")[0]
+
+    const newIngredientDiv = ingredientDiv.cloneNode(true)
+    console.log(ingredientDiv)
+    parent.appendChild(newIngredientDiv)
+  }
+
+  function removeField () {
+    const parent = document.getElementById("ingredients-container")
+
+    if(parent.children.length >2) {
+      parent.removeChild(parent.lastElementChild);
+    }
+
+  }
+
+</script>
+</html>

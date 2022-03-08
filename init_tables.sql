@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS users, feedback, recipe, recipe_ingredients, ingredients, recipe_category CASCADE;
+DROP TABLE IF EXISTS ing_test, users, comments, recipe, recipe_ingredients, ingredients, recipe_category CASCADE;
 -- DROP TABLE IF EXISTS ingredients CASCADE;
 -- -- -- , feedback, recipe, recipe_ingredients, ingredients, measurements, recipe_category
 -- DROP TABLE IF EXISTS users CASCADE;
@@ -15,17 +15,6 @@ CREATE TABLE users (
   email_address VARCHAR
 );
 
-CREATE TABLE comments (
-  id SERIAL PRIMARY KEY,
-  recipe_id INTEGER,
-  FOREIGN KEY (recipe_id) REFERENCES recipe(id),
-  user_id INTEGER, 
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  review TEXT,
-  rating INTEGER,
-  date_given DATE
-);
-
 CREATE TABLE recipe (
   id SERIAL PRIMARY KEY,
   name TEXT,
@@ -33,8 +22,20 @@ CREATE TABLE recipe (
   date_modified DATE,
   instructions TEXT,
   user_id INTEGER,
-  FOREIGN KEY (user_id) REFERENCES users(id)
+  FOREIGN KEY (user_id) REFERENCES users(id) on DELETE CASCADE
 );
+
+CREATE TABLE comments (
+  id SERIAL PRIMARY KEY,
+  recipe_id INTEGER,
+  FOREIGN KEY (recipe_id) REFERENCES recipe(id) on DELETE CASCADE,
+  user_id INTEGER, 
+  FOREIGN KEY (user_id) REFERENCES users(id) on DELETE CASCADE,
+  review TEXT,
+  rating INTEGER,
+  date_given DATE
+);
+
 
 CREATE TABLE ingredients (
   id SERIAL,
@@ -48,7 +49,7 @@ CREATE TABLE ingredients (
 
 CREATE TABLE recipe_ingredients (
   recipe_id INTEGER,
-  FOREIGN KEY (recipe_id) REFERENCES recipe(id),
+  FOREIGN KEY (recipe_id) REFERENCES recipe(id) on DELETE CASCADE,
   ingredient_name TEXT,
   ingredient_type TEXT,
   ingredient_flavor TEXT, 
@@ -57,7 +58,7 @@ CREATE TABLE recipe_ingredients (
 
 CREATE TABLE recipe_category (
   recipe_id INTEGER,
-  FOREIGN KEY (recipe_id) REFERENCES recipe(id),
+  FOREIGN KEY (recipe_id) REFERENCES recipe(id) on DELETE CASCADE,
   sweet NUMERIC,
   sour NUMERIC,
   bitter NUMERIC,
@@ -66,6 +67,13 @@ CREATE TABLE recipe_category (
   fruity NUMERIC,
   overall_abv NUMERIC
 );
+
+UPDATE recipe
+SET date_modified = '2022-01-01'
+WHERE id = 3;
+
+UPDATE ingredients
+
 
 -- INSERT INTO recipe (name, instructions) VALUES ('banana daiquiri','Add the rum, banana liqueur, lime juice and demerara syrup into a shaker with ice and shake until well-chilled.');
 
@@ -174,4 +182,4 @@ CREATE TABLE recipe_category (
 
 -- SELECT recipe.id, recipe.name, ingredients.ingredient_name, ingredients.ingredient_type, ingredients.ingredient_flavor, ingredients.measurement_name, ingredients.abv, recipe_ingredients.amount, recipe_category.* FROM recipe_category INNER JOIN recipe ON recipe_category.recipe_id = recipe.id RIGHT JOIN recipe_ingredients ON recipe.id = recipe_ingredients.recipe_id INNER JOIN ingredients ON ingredients.ingredient_name = recipe_ingredients.ingredient_name AND ingredients.ingredient_type = recipe_ingredients.ingredient_type AND ingredients.ingredient_flavor = recipe_ingredients.ingredient_flavor WHERE recipe.id = 17
 
--- INSERT into recipe_ingredients (recipe_id, ingredient_name, ingredient_type, ingredient_flavor, amount) VALUES (24, 'vanilla liquer', 'liquer', 'sweet', '20');
+-- INSERT into recipe_ingredients (recipe_id, ingredient_name, ingredient_type, ingredient_flavor, amount) VALUES (24, 'vanilla liquer', 'liquer', 'sweet', '20');SELECT conname, contype

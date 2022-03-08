@@ -4,19 +4,36 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
   <title>Document</title>
 </head>
 <body>
+  <div class="container col-8 mt-5">
+    <div class="row text-center">
+      <h2>Join Us!</h2>
+    </div>
   <form action="/signup" method="POST">
-    
+    <div class="row">
     <label for="email_address">Email</label>
     <input type="email" name="email_address" /><br/>
+    </div>
+    <div class="row">
     <label for="username">Username</label>
     <input type="text" name="username" /><br />
+    </div>
+    <div class="row">
     <label for="password">Password</label>
     <input type="password" name="password" /><br/>
+    </div>
     <!-- repeat password -->
-    <input type="submit" value="Submit">
+    <div class="row mt-4">
+    <input class="btn btn-light border-dark col-5" type="submit" value="Submit">
+    </div>
   </form>
+  </div>
 </body>
 </html>

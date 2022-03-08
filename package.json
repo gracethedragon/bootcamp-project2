@@ -25,12 +25,15 @@
   },
   "type": "module",
   "dependencies": {
+    "@material/slider": "^13.0.0",
     "axios": "^0.26.0",
     "cookie-parser": "^1.4.6",
     "cookieparser": "^0.1.0",
     "ejs": "^3.1.5",
     "express": "^4.17.3",
     "jssha": "^3.2.0",
+    "method-override": "^3.0.0",
+    "moment": "^2.29.1",
     "pg": "^8.7.3"
   }
 }

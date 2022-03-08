@@ -1,0 +1,105 @@
+<%-include('header')%>
+  <form action="/search" method="POST">
+    <div>
+    <input type="radio" name="search" value = "ingredient" onclick=ingredientsClick() id="ingredient-button"required> Search by ingredients:<br>
+    </div>
+    <div id="ingredient-input" style="display:none">
+      <input type="text" name ="ingredient" id="ingredient">
+    </div>
+    <div>
+    <input type="radio" name="search" value="flavor" id="flavor-button" onclick=flavorClick()> Search by flavor:<br>
+    </div>
+    <div id="flavor-input" style="display:none">
+      <input type="radio" name="flavor" value="sweet" id="sweet" class="flavor-value" required disabled>
+      <label for="flavor">sweet</label>
+      <input type="radio" name="flavor" value="sour" id="sour"  class="flavor-value" disabled >
+      <label for="flavor">sour</label>
+      <input type="radio" name="flavor" value="bitter" id="bitter" class="flavor-value" disabled>
+      <label for="flavor">bitter</label>
+      <input type="radio" name="flavor" value="savory" id="savory" class="flavor-value"  disabled>
+      <label for="flavor">savory</label>
+      <input type="radio" name="flavor" value="spicy" id="spicy" class="flavor-value" disabled >
+      <label for="flavor">spicy</label>
+      <input type="radio" name="flavor" value="fruity" id="fruity" class="flavor-value" disabled >
+      <label for="flavor">fruity</label>
+    <br />
+    </div>
+    <div>
+    <input type="radio" name="search" value="abv" id="abv-button" onclick=abvClick()> Search by ABV:<br>
+    </div>
+    <div id="abv-input" style="display:none" >
+    <input type="range" name="abv" value="0" min="1" max="100" class="abv" id="range_weight" oninput="range_weight_disp.value = range_weight.value + '%'" >
+     <output id="range_weight_disp">0%</output>      
+  </div>
+  
+  <div>
+    <input type="submit" value="submit">
+  </div>
+
+  </form>
+
+</body>
+<script>
+  
+  function ingredientsClick(){  
+    
+    let x = document.getElementById('ingredient-input');
+    let y = document.getElementById('abv-input');
+    let z = document.getElementById('flavor-input');
+    let ingButton = document.getElementById('ingredient-button')
+   
+    if(x.style.display === 'none' && ingButton.checked === true){
+      x.style.display = 'block'
+      document.getElementById('ingredient').disabled = false
+      document.getElementById('ingredient').setAttribute('required', '')
+      y.style.display='none'
+      z.style.display = 'none'
+    } else {
+      x.style.display = 'none';
+      document.getElementById('ingredient').disabled = true
+      document.getElementById('ingredient').removeAttribute('required')
+    }
+
+  }
+
+  function flavorClick() {
+    let flavButton = document.getElementById('flavor-button')
+    let x = document.getElementById('ingredient-input');
+    let y = document.getElementById('abv-input');
+    let z = document.getElementById('flavor-input');
+
+    if (z.style.display === 'none' && flavButton.checked === true) {
+      z.style.display = 'block'
+      // console.log(document.getElementsByClassName("flavor-value")[0])
+      Array.from(document.getElementsByClassName("flavor-value")).forEach(flavor => flavor.disabled = false)
+      y.style.display = 'none'
+      x.style.display = 'none'
+      document.getElementById('ingredient').removeAttribute('required')
+    } else {
+      z.style.display = 'none';
+      Array.from(document.getElementsByClassName("flavor-value")).forEach(flavor => flavor.disabled = true)
+    }
+  }
+
+  function abvClick() {
+    
+    let abvButton = document.getElementById('abv-button')
+    let x = document.getElementById('ingredient-input');
+    let y = document.getElementById('abv-input');
+    let z = document.getElementById('flavor-input');
+    
+     if (y.style.display === 'none' && abvButton.checked === true) {
+      y.style.display = 'block'
+      document.getElementsByClassName('abv')[0].disabled = false
+      z.style.display = 'none'
+      x.style.display = 'none'
+      document.getElementById('ingredient').removeAttribute('required')
+    } else {
+      y.style.display = 'none';
+      document.getElementsByClassName('abv')[0].disabled = true
+    }
+    
+  }
+
+</script>
+</html>

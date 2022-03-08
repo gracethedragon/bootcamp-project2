@@ -1,16 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
+<%-include('header')%>
 <h1>Recipes</h1> 
+
+<div><a href="/submit">Submit a recipe!</a></div>
+
+<div class="dropdown">
+<h6 class="dropdown-toggle" data-bs-toggle="dropdown">Sort by</h6>
+<div class="dropdown-menu">
+  <a href="/recipes?sort=ascrating" class="dropdown-item">Ratings (lowest to highest)</a>
+  <a href="/recipes?sort=descrating" class="dropdown-item">Ratings (highest to lowest)</a>
+  <a href="/recipes?sort=descdate" class="dropdown-item">Date added (newest to oldest))</a>
+  <a href="/recipes?sort=ascdate" class="dropdown-item">Date added (oldest to newest))</a>
+  <a href="/recipes?sort=ascreviews" class="dropdown-item">Reviews (lowest to highest)</a>
+  <a href="/recipes?sort=descreviews" class="dropdown-item">Reviews (highest to lowest)</a>
+  
+</div>
+</div>
+
 <% data.forEach(data=>{ %>
-  <a href="/recipes/<%=data.id%>"><%=data.name%>, <%=data.user_id%></a><br/>
-<%})%>
+  <%if(data.reviews > 0) {%>
+  <a href="/recipes/<%=data.id%>"><%=data.name%>, <%=data.rating%>⭐, <%=data.reviews%> reviews</a><br />
+  <%} else {%>
+  <a href="/recipes/<%=data.id%>"><%=data.name%>, yet to be reviewed
+    </a><br />
+<%}})%>
 
 </body>
 </html>

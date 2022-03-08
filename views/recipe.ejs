@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=
-  , initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
+<%-include('header')%>
   <h1><%=data[0].name%></h1>
-  <h3>Ingredients</h3>
+  
+  <h3><%=avgRating%>⭐, <%=data[0].reviews%> reviews</h3>
+  <h6><a href="/users/<%=data[0].user_id%>"><%=data[0].username%></a> 
+    
+      Submitted: <%=data[0].date_created.toISOString().slice(0, 10)%>
+    <% if(data[0].date_modified !== null) {%>
+      Modified: <%=data[0].date_modified.toISOString().slice(0, 10)%>
+    <%}%>
+  </h6>
+    <h3>Ingredients</h3>
+  
   <ul>
   <% data.forEach(data=>{ %>
     <li> <%=data.amount%> <%=data.measurement_name%> <%=data.ingredient_name%> (<%=data.ingredient_type%>)</li>
@@ -25,6 +26,43 @@
     <li>Fruity: <%=Math.round(data[0].fruity*100)%>%</li>
   </ul>
   <h3>ABV: <%=Math.round(data[0].overall_abv)%>%</h3>
-  
+<hr>
+
+<% if (userIsOwner === true) {%>
+<form action="/recipes/<%=data[0].id%>?_method=DELETE" method="POST">
+  <input type="submit" value="Delete" />
+</form>
+  <a href="/recipes/<%=data[0].id%>/edit"> Edit</a>
+<%} else if (userIsOwner === false) {%>
+
+<form action="/recipes/<%=data[0].id%>" method="POST">
+  <div>
+  <label for="rating">How would you rate this recipe ?</label><br>
+  <span class="star-rating">
+    <input type="radio" name="rating" value="1"><i></i>
+    <input type="radio" name="rating" value="2"><i></i>
+    <input type="radio" name="rating" value="3"><i></i>
+    <input type="radio" name="rating" value="4"><i></i>
+    <input type="radio" name="rating" value="5"><i></i>
+  </span>
+  </div>
+  <div>
+  <label for="comment">Leave a review ?</label><br>
+  <textarea name="comment"></textarea>
+  </div>
+  <input type="submit" value="submit" />
+</form>
+<%}%>
+
+<% if(comments.length !== 0){
+  comments.forEach(comment =>{%>
+    <div>
+      <%=comment.rating%>, <%=comment.username%>, <%=comment.date_given.toISOString().slice(0, 10)%><br>
+      <%=comment.review%>
+     </div> 
+     <hr>
+  <%})
+}%>
+
 </body>
 </html>
