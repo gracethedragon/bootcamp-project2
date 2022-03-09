@@ -480,7 +480,8 @@ app.get('/users/:id', (req,res)=>{
 
 app.get('/search', (req,res)=>{
   const outputData = {username: req.cookies.username, userid: req.cookies.user}
-  res.render('search', outputData)
+    res.render('search', outputData)
+  
 })
 
 const sort =(sortBy, dataArray)=>{
