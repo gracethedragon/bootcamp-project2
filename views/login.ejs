@@ -7,7 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="/loginstyle.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=League+Spartan:wght@100;200;300;400;500;600;700;800&family=Patua+One&display=swap"
+      rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
     crossorigin="anonymous"></script>
@@ -15,13 +20,39 @@
 </head>
 
 <body>
-  <form action="/login" method="POST">
-    <label for="username">Username</label>
-    <input type="text" name="username" <% if(user){%>value=<%=user%><%}%> /><br />
-    <label for="password">Password</label>
-    <input type="password" name="password" /><br/>
-    <!-- repeat password -->
-    <input type="submit" value="Submit">
-  </form>
+  <div class="content">
+    <h2 class="text_shadows">In Good Spirits</h2>
+  </div>
+  <div class="container px-5 mt-4" id="userdetailscontainer">
+    <!-- <div class="row">
+      <iframe src="https://giphy.com/embed/dARHY2W4nfwcL0vAKv" ></iframe>
+    </div> -->
+<!-- shadow-lg border border-4 border-light -->
+    <div class="row" id="userdetails">
+      <div class="column">
+      <form action="/login" method="POST">
+       <% if(errMsg) {%> 
+        <div class="row px-2 text-center">
+          <h6 class="fw-light text-danger">Login invalid. Too boozy? 🙃</h6>
+        </div>
+        <%}%>
+        <div class="row px-2">
+        <label for="username">Boozername</label>
+        <input class="form-control" type="text" name="username" <% if(user){%>value=<%=user%><%}%> autocomplete="off"required/><br />
+        </div>
+        <div class="row px-2">
+        <label for="password">Secret Code</label>
+        <input class="form-control" type="password" name="password" autocomplete="off" required /><br/>
+        </div>
+        <!-- repeat password -->
+        <div class="text-center my-3">
+        <input class=" btn btn-light" type="submit" value="Spirit Me Away!">
+        </div>
+        <div class="row text-center">
+          <a href="/signup">I wanna be a boozer too</a>
+        </div>
+    </form></div>
+  </div>
+  </div>
 </body>
 </html>

@@ -54,14 +54,14 @@ app.post('/signup', (req,res)=>{
       console.log('error', err.stack)
     }
     console.log('successfully signedup', result.rows)
-    const loginData = {user: req.body.username}
+    const loginData = {user: req.body.username, errMsg: false}
     console.log(loginData)
     res.render('login', loginData)
   })
 })
 
 app.get('/login', (req,res)=>{
-  const loginData = {user: req.body.username}
+  const loginData = {user: req.body.username, errMsg: false}
   console.log(loginData)
   res.render('login', loginData)
 })
@@ -71,7 +71,7 @@ app.post('/login', (req,res)=>{
   shaObj.update(req.body.password+SALT)
   const hashedPassword = shaObj.getHash('HEX')
   const userData = [req.body.username, hashedPassword]
-  pool.query ('SELECT id FROM users WHERE username=$1 AND hashed_pw=$2', userData, (err,result)=>{
+  pool.query ('SELECT id, username FROM users WHERE username=$1 AND hashed_pw=$2', userData, (err,result)=>{
     console.log(result.rows)
     if(result.rows.length === 1){
       const shaCookie = new jsSHA('SHA-512', 'TEXT', { encoding: 'UTF8' })
@@ -81,10 +81,12 @@ app.post('/login', (req,res)=>{
       res.cookie('loggedIn', hashedCookieString)
       console.log(result.rows[0].id)
       res.cookie('user', result.rows[0].id)
+      res.cookie('username', result.rows[0].username)
       res.redirect('/recipes')
     }
     else{
-      res.send('wrong username or password, please try again')
+      const outputData = {errMsg: true, user:false}
+      res.render('login', outputData)
     }
   })
 })
@@ -92,6 +94,7 @@ app.post('/login', (req,res)=>{
 app.get('/signout', (req,res)=>{
   res.clearCookie('loggedIn')
   res.clearCookie('user')
+  res.clearCookie('username')
   res.redirect('/login')
 })
 
@@ -107,7 +110,7 @@ app.use((req,res,next)=>{
 app.get('/recipes', (req,res)=>{
   console.log(req.query.sort)
   const sortBy = req.query.sort
-  const outputData = {}
+  const outputData = {username: req.cookies.username, userid: req.cookies.user}
   pool.query('SELECT * FROM recipe', (err,result)=>{
     if(err){
       console.log('error', err)
@@ -163,44 +166,44 @@ app.get('/recipes', (req,res)=>{
 
 app.get('/recipes/:id', (req,res)=>{
   const recipeId = req.params.id
-  let recipeData = {}
+  console.log(recipeId, 'recipeId')
+  let recipeData = {username: req.cookies.username, userid: req.cookies.user}
   pool.query(`SELECT users.username, recipe.*, ingredients.ingredient_name, ingredients.ingredient_type, ingredients.ingredient_flavor, ingredients.measurement_name, ingredients.abv, recipe_ingredients.amount, recipe_category.* FROM users INNER JOIN recipe ON users.id = recipe.user_id INNER JOIN recipe_category ON recipe_category.recipe_id = recipe.id RIGHT JOIN recipe_ingredients ON recipe.id = recipe_ingredients.recipe_id INNER JOIN ingredients ON ingredients.ingredient_name = recipe_ingredients.ingredient_name AND ingredients.ingredient_type = recipe_ingredients.ingredient_type AND ingredients.ingredient_flavor = recipe_ingredients.ingredient_flavor WHERE recipe.id = ${recipeId}`, (err, result)=>{
     if(err){
       console.log('error',err.stack)
     } 
     console.log('result', result)
-    if(typeof(result) === "undefined"){
-      res.redirect('/recipes')
-    } else {
-       if(checkHash(result.rows[0].user_id) === req.cookies.loggedIn){   
+    
+    if(checkHash(result.rows[0].user_id) === req.cookies.loggedIn){   
         recipeData["userIsOwner"] = true
+        console.log('check hash true')
       } else {
         recipeData["userIsOwner"] = false
+        console.log('check hash false')
       }
-      console.log(result.rows)
+
       recipeData["data"] = result.rows
+      recipeData["data"].sort((a,b)=>a.amount - b.amount)
 
       pool.query(`SELECT users.username, comments.review, comments.rating, comments.date_given FROM users INNER JOIN comments ON comments.user_id = users.id WHERE comments.recipe_id = ${recipeId} `).then((result)=>{
+        console.log('next query done', result.rows, result.rows.length)
         recipeData["comments"] = result.rows
         recipeData["avgRating"] = 'Yet to be rated'
-        if(result.rows.length !==0){
-        const ratings = recipeData.comments.map(comment=>comment.rating)
-        const numberRatings = ratings.length
-        recipeData["avgRating"] = (ratings.reduce((a,b)=> a+b) / numberRatings).toFixed(2)
-        pool.query(`UPDATE recipe SET rating = ${recipeData["avgRating"]}, reviews = ${numberRatings} WHERE id =${recipeId} returning id`, (err,result)=>{
-          if(err){
-            console.log('error', err)
-          }
-          console.log('done')
-          console.log(result.rows, 'final')   
-             
-          res.render('recipe', recipeData) 
-          
+        if(result.rows.length !== 0){
+          console.log('there are results!')
+          const ratings = recipeData["comments"].map(comment=>comment.rating)
+          const numberRatings = ratings.length
+          recipeData["avgRating"] = (ratings.reduce((a,b)=> a+b) / numberRatings).toFixed(2)
+          pool.query(`UPDATE recipe SET rating = ${recipeData["avgRating"]}, reviews = ${numberRatings} WHERE id =${recipeId} returning id`, (err,result)=>{
+            if(err){
+              console.log('error', err)
+            }
+            console.log('done')
+            console.log(result.rows, 'final') 
         })
-        }   
-      
+        } 
+        res.render('recipe', recipeData) 
       })
-      }
   })
 })
 
@@ -221,18 +224,15 @@ app.post('/recipes/:id', (req,res)=>{
   const date = moment().format("YYYY-MM-DD")
   // console.log(date)
   const commentsData = [recipeId, userId, req.body.comment, req.body.rating, date]
-  pool.query(`INSERT INTO comments (recipe_id, user_id, review, rating, date_given) VALUES ($1, $2, $3, $4, $5)`, commentsData, (err,result)=>{
-    if(err){
-      console.log('error', err)
-    }
-    res.redirect(`/recipes/${recipeId}`)
-  })
-
+  return pool.query(`INSERT INTO comments (recipe_id, user_id, review, rating, date_given) VALUES ($1, $2, $3, $4, $5) returning recipe_id`, commentsData).then((result)=>{
+    console.log(result.rows, 'comment', result.rows[0].recipe_id)
+    res.redirect (`/recipes/${result.rows[0].recipe_id}`)
+  }).catch((error)=>{console.log(error)})
 })
 
 app.get('/recipes/:id/edit', (req,res)=>{
   const recipeId = req.params.id
-  const recipeData = {}
+  const recipeData = {username: req.cookies.username, userid: req.cookies.user}
   pool.query(`SELECT recipe.user_id, recipe.id, recipe.name, recipe.instructions, ingredients.ingredient_name, ingredients.ingredient_type, ingredients.ingredient_flavor, ingredients.measurement_name, ingredients.abv, recipe_ingredients.amount, recipe_category.* FROM recipe_category INNER JOIN recipe ON recipe_category.recipe_id = recipe.id RIGHT JOIN recipe_ingredients ON recipe.id = recipe_ingredients.recipe_id INNER JOIN ingredients ON ingredients.ingredient_name = recipe_ingredients.ingredient_name AND ingredients.ingredient_type = recipe_ingredients.ingredient_type AND ingredients.ingredient_flavor = recipe_ingredients.ingredient_flavor WHERE recipe.id = ${recipeId}`, (err, result)=>{
     if(err){
       console.log('error',err.stack)
@@ -343,7 +343,8 @@ app.post('/recipes/:id/edit', (req,res)=>{
 
 app.get('/submit', (req,res)=>{
   if(checkHash(req.cookies.user) === req.cookies.loggedIn){
-    res.render('submit')
+    const outputData = {username: req.cookies.username, userid: req.cookies.user}
+    res.render('submit', outputData)
   } else {
     res.send('please log in')
   }
@@ -414,7 +415,7 @@ app.post('/submit', (req,res)=>{
     .then(()=>{
     pool.query(`SELECT recipe.id, recipe.name, ingredients.ingredient_name, ingredients.ingredient_type, ingredients.ingredient_flavor, ingredients.measurement_name, ingredients.abv, recipe_ingredients.amount FROM recipe RIGHT JOIN recipe_ingredients ON recipe.id = recipe_ingredients.recipe_id INNER JOIN ingredients ON ingredients.ingredient_name = recipe_ingredients.ingredient_name AND ingredients.ingredient_type = recipe_ingredients.ingredient_type AND ingredients.ingredient_flavor = recipe_ingredients.ingredient_flavor WHERE recipe.id = ${recipe_id}`)
     
-    res.redirect('/recipes')
+    res.redirect(`/recipes/${recipe_id}`)
     })
       
   }).catch((error) => console.log(error.stack))  
@@ -422,7 +423,7 @@ app.post('/submit', (req,res)=>{
 
 app.get('/users/:id', (req,res)=>{
   const userId = req.params.id
-  const outputData = {}
+  const outputData = {username: req.cookies.username, userid: req.cookies.user}
   const sortBy = req.query.sort
   pool.query(`SELECT recipe.*, users.username FROM recipe INNER JOIN users ON recipe.user_id = users.id WHERE users.id = ${userId}`, (err, result)=>{
    if(err){
@@ -468,7 +469,7 @@ app.get('/users/:id', (req,res)=>{
         break
       default:
       outputData["data"] = result.rows.sort((a,b) =>{
-        return b.rating - a.rating})
+        return a.name - b.name})
     }
   }
     console.log(outputData)
@@ -478,14 +479,54 @@ app.get('/users/:id', (req,res)=>{
 
 
 app.get('/search', (req,res)=>{
-  res.render('search')
+  const outputData = {username: req.cookies.username, userid: req.cookies.user}
+  res.render('search', outputData)
 })
+
+const sort =(sortBy, dataArray)=>{
+  switch (sortBy){
+      case 'ascrating':
+        console.log('ascrating')
+        dataArray = dataArray.sort((a,b) =>{
+          return a.rating - b.rating})
+        break
+      case 'descrating':
+        console.log('descrating')
+        dataArray = dataArray.sort((a,b) =>{
+          return b.rating - a.rating})
+        break
+      case 'ascreviews':
+        console.log('ascreviews')
+        dataArray = dataArray.sort((a,b) =>{
+          return a.reviews - b.reviews})
+        break
+      case 'descreviews':
+        console.log('descreviews')
+        dataArray = dataArray.sort((a,b) =>{
+          return b.reviews - a.reviews})
+        break
+      case 'ascdate':
+        console.log('ascdate')
+       dataArray = dataArray.sort((a,b) =>{
+          return a.date_created - b.date_created})
+        break
+      case 'descdate':
+        console.log('descdate')
+        dataArray = dataArray.sort((a,b) =>{
+          return b.date_created - a.date_created})
+        break
+      default:
+     dataArray = dataArray.sort((a,b) =>{
+        return a.name - b.name})
+    }
+}
+
+
 
 app.post('/search', (req,res)=>{
   console.log(req.body)
-  const results = {recipes:[], searchkey: [], searchvalue:[]}
-  // let search = []
-  // const resultsQuery = 
+  const results = {recipes:[], searchkey: [], searchvalue:[], username: req.cookies.username, userid: req.cookies.user}
+  const sortBy = req.query.sort
   
     if(req.body.search === "ingredient"){
       pool.query(`SELECT DISTINCT recipe_id FROM recipe_ingredients WHERE ingredient_name = $1`,[req.body.ingredient], (err,result)=>{
@@ -503,7 +544,9 @@ app.post('/search', (req,res)=>{
         results.searchkey = 'ingredient'
         results.searchvalue = req.body.ingredient
         console.log(results)
+        sort(sortBy, results.recipes)
         res.render('results', results)
+        
         })
         
       })
@@ -523,6 +566,7 @@ app.post('/search', (req,res)=>{
         results.searchkey = 'flavor'
         results.searchvalue = req.body.flavor
         console.log(results)
+        sort(sortBy, results.recipes)
         res.render('results', results)
         })
       })
@@ -542,6 +586,7 @@ app.post('/search', (req,res)=>{
         results.searchkey = 'overall_abv'
         results.searchvalue = req.body.abv
         console.log(results)
+        sort(sortBy, results.recipes)
         res.render('results', results)
         })
       })

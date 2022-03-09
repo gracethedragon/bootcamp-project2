@@ -5,7 +5,7 @@ DROP TABLE IF EXISTS ing_test, users, comments, recipe, recipe_ingredients, ingr
 -- DROP TABLE IF EXISTS feedback CASCADE;
 -- DROP TABLE IF EXISTS recipe CASCADE;
 -- DROP TABLE IF EXISTS recipe_ingredients CASCADE;
--- DROP TABLE IF EXISTS ingredients CASCADE;
+-- DROP TABLE IF EXISTS ingredients CASCADE;n
 -- DROP TABLE IF EXISTS recipe_category CASCADE;
 
 CREATE TABLE users (
@@ -21,6 +21,8 @@ CREATE TABLE recipe (
   date_created DATE,
   date_modified DATE,
   instructions TEXT,
+  rating NUMERIC,
+  reviews INTEGER,
   user_id INTEGER,
   FOREIGN KEY (user_id) REFERENCES users(id) on DELETE CASCADE
 );
@@ -68,11 +70,11 @@ CREATE TABLE recipe_category (
   overall_abv NUMERIC
 );
 
-UPDATE recipe
-SET date_modified = '2022-01-01'
-WHERE id = 3;
+-- UPDATE recipe
+-- SET date_modified = '2022-01-01'
+-- WHERE id = 3;
 
-UPDATE ingredients
+-- UPDATE ingredients
 
 
 -- INSERT INTO recipe (name, instructions) VALUES ('banana daiquiri','Add the rum, banana liqueur, lime juice and demerara syrup into a shaker with ice and shake until well-chilled.');

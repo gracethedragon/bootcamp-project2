@@ -1,10 +1,15 @@
 <%-include('header')%>
-<h1>Recipes</h1> 
-
-<div><a href="/submit">Submit a recipe!</a></div>
-
-<div class="dropdown">
-<h6 class="dropdown-toggle" data-bs-toggle="dropdown">Sort by</h6>
+<div class="container mt-2">
+<div class="row px-3 fst-italic fw-light" id="username"><a class="text-end" href="/users/<%=userid%>"
+    style="text-decoration:none;">🍹<%=username%></a>
+</div>
+<div class="row text-center"><h1>Recipes</h1> </div>
+<div class="row justify-content-between px-3 mb-2">
+<div class="dropdown btn col-4 text-start ">
+  <h6 class="text-light"><%=data.length%> results</h6>
+</div>
+<div class="dropdown btn text-light col-3 text-end">
+<h6 class="dropdown-toggle" data-bs-toggle="dropdown">Sort</h6>
 <div class="dropdown-menu">
   <a href="/recipes?sort=ascrating" class="dropdown-item">Ratings (lowest to highest)</a>
   <a href="/recipes?sort=descrating" class="dropdown-item">Ratings (highest to lowest)</a>
@@ -15,14 +20,21 @@
   
 </div>
 </div>
-
+</div>
+<div class="row px-3">
 <% data.forEach(data=>{ %>
   <%if(data.reviews > 0) {%>
-  <a href="/recipes/<%=data.id%>"><%=data.name%>, <%=data.rating%>⭐, <%=data.reviews%> reviews</a><br />
+  <span class="text-secondary"><a href="/recipes/<%=data.id%>"><%=data.name%></a> , <%=data.rating%>⭐, <%=data.reviews%> reviews</span><br />
   <%} else {%>
-  <a href="/recipes/<%=data.id%>"><%=data.name%>, yet to be reviewed
-    </a><br />
+  <span class="text-secondary"><a href="/recipes/<%=data.id%>"><%=data.name%></a>, be the first to review!</span>
+    <br />
 <%}})%>
-
+</div>
+<div class="row">
+  <iframe
+      src="https://giphy.com/embed/6uty9Df5vFOI8PNVZl" ></iframe></div>
+  
+</div>
+</div>
 </body>
 </html>

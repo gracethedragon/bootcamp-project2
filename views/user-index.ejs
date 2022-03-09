@@ -1,30 +1,47 @@
 <%-include('header')%>
-
-<%if(userError){%>
-<h1>User does not exist!</h1>
-<%} else {%>
-<h1>Recipes by <%= data[0].username%></h1> 
-
-<div class="dropdown">
-<h6 class="dropdown-toggle" data-bs-toggle="dropdown">Sort by</h6>
-<div class="dropdown-menu">
-  <a href="/users?sort=ascrating" class="dropdown-item">Ratings (lowest to highest)</a>
-  <a href="/users?sort=descrating" class="dropdown-item">Ratings (highest to lowest)</a>
-  <a href="/users?sort=descdate" class="dropdown-item">Date added (newest to oldest))</a>
-  <a href="/users?sort=ascdate" class="dropdown-item">Date added (oldest to newest))</a>
-  <a href="/users?sort=ascreviews" class="dropdown-item">Reviews (lowest to highest)</a>
-  <a href="/users?sort=descreviews" class="dropdown-item">Reviews (highest to lowest)</a>
-  
+<div class="container mt-3">
+  <div class="row px-3 fst-italic fw-light" id="username"><a class="text-end" href="/users/<%=userid%>"
+      style="text-decoration:none;">🍹<%=username%></a>
+  </div>
+ <div class="row px-3 text-center">
+  <%if(userError){%>
+  <h1>User does not exist!</h1>
+  <%} else {%>
+  <h1><%= data[0].username%>'s repertoire</h1> 
 </div>
+
+<div class="row justify-content-between px-3 mb-2">
+  <div class="dropdown btn col-4 text-start ">
+    <h6 class="text-light">
+      <%=data.length%> results
+    </h6>
+  </div>
+  <div class="dropdown btn text-light col-3 text-end">
+    <h6 class="dropdown-toggle" data-bs-toggle="dropdown">Sort</h6>
+    <div class="dropdown-menu">
+      <a href="/users?sort=ascrating" class="dropdown-item">Ratings (lowest to highest)</a>
+      <a href="/users?sort=descrating" class="dropdown-item">Ratings (highest to lowest)</a>
+      <a href="/users?sort=descdate" class="dropdown-item">Date added (newest to oldest))</a>
+      <a href="/users?sort=ascdate" class="dropdown-item">Date added (oldest to newest))</a>
+      <a href="/users?sort=ascreviews" class="dropdown-item">Reviews (lowest to highest)</a>
+      <a href="/users?sort=descreviews" class="dropdown-item">Reviews (highest to lowest)</a>
+    </div>
+  </div>
 </div>
+<div class="row px-3">
 
 <% data.forEach(data=>{ %>
-  <%if(data.reviews > 0) {%>
-  <a href="/recipes/<%=data.id%>"><%=data.name%>, <%=data.rating%>⭐, <%=data.reviews%> reviews</a><br />
-  <%} else {%>
-  <a href="/recipes/<%=data.id%>"><%=data.name%>, yet to be reviewed
-    </a><br />
-<%}})%>
-<%}%>
+  <%if(data.reviews> 0) {%>
+    <span class="text-secondary"><a href="/recipes/<%=data.id%>">
+        <%=data.name%>
+      </a> , <%=data.rating%>⭐, <%=data.reviews%> reviews</span><br />
+    <%} else {%>
+      <span class="text-secondary"><a href="/recipes/<%=data.id%>">
+          <%=data.name%>
+        </a>, be the first to review!</span>
+      <br />
+      <%}})%>
+      <%}%>
+</div>
 </body>
 </html>

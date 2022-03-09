@@ -1,62 +1,91 @@
 <%-include('header')%>
+<div class="container mt-3">
+  <div class="row px-3 fst-italic fw-light" id="username"><a class="text-end" href="/users/<%=userid%>" style="text-decoration:none;">🍹<%=username%></a>
+  </div>
+
 <form action="/recipes/<%=data[0].recipe_id%>/edit" method="POST">
-  <label for="recipe_name">recipe name</label>
-  <input type="text" name="recipe_name"  value="<%-data[0].name%>">
-  <hr> 
-<div id="ingredients-container">
+  <div class="row px-3">
+    <label class="px-0" for="recipe_name">Whatcha call it:</label>
+    <input class="form-control" type="text" name="recipe_name"  value="<%-data[0].name%>" required>
+  </div>
+  
+  <hr>
+  <div id="ingredients-container">
+    
   <% data.forEach(ingredient=>{%>
     <div class="ingredient">
-    
-      <label for="ingredient_type">Type</label>
-      <select name="ingredient_type">
-        <option disabled selected value> -- choose one -- </option>
-        <option value="alcohol" <%if (ingredient.ingredient_type === "alcohol"){%>selected<%}%>>Alcohol (ABV: >20%)</option>
-        <option value="liquer" <%if (ingredient.ingredient_type === "liquer"){%>selected<%}%>>Liquer (ABV: >0%)</option>
-        <option value="mixer" <%if (ingredient.ingredient_type === "mixer"){%>selected<%}%>>Mixer (ABV: 0%)</option>
-        <option value="garnish" <%if (ingredient.ingredient_type === "garnish"){%>selected<%}%>>Garnish (ABV: 0%)</option>
-      </select><br />
-    
-      <label for="ingredient_name">Ingredient Name</label>
-      <input type="text" , name="ingredient_name" class="ingredient_name" value="<%-ingredient.ingredient_name%>"><br />
-    
-      <label for="ingredient_flavor">Dominant Flavor Profile</label>
-      <select name="ingredient_flavor">
-        <option disabled selected value> -- choose one -- </option>
-        <option value="sweet" <%if (ingredient.ingredient_flavor === "sweet"){%>selected<%}%>>Sweet</option>
-        <option value="sour" <%if (ingredient.ingredient_flavor === "sour"){%>selected<%}%>>Sour</option>
-        <option value="bitter" <%if (ingredient.ingredient_flavor === "bitter"){%>selected<%}%>>Bitter</option>
-        <option value="savory" <%if (ingredient.ingredient_flavor === "savory"){%>selected<%}%>>Savory</option>
-        <option value="spicy" <%if (ingredient.ingredient_flavor === "spicy"){%>selected<%}%>>Spicy</option>
-        <option value="fruity" <%if (ingredient.ingredient_flavor === "fruity"){%>selected<%}%>>Fruity</option>
-      </select><br />
-    
-      <input type="text" , name="measurement_name" value="ml" hidden>
-    
-      <label for="amount">Amount</label>
-      <input type="number" name="amount" value="<%-ingredient.amount%>">ml<br />
-      <hr>
+    <div class="row px-1 mt-1">
+      <div class="col ">
+        <label for="ingredient_name">Ingredient name</label>
+        <input type="text" name="ingredient_name" class="ingredient_name form-control" value="<%-ingredient.ingredient_name%>">
+      </div>
+      <div class="col-4">
+        <input type="text" , name="measurement_name" , value="ml" hidden>
+        <label for="amount">Amount</label>
+        <input class="form-control" type="number" placeholder="ml/g" , name="amount" value=<%=ingredient.amount%>>
+      </div>
     </div>
-
+    
+    <div class="row px-1">
+      <div class="col">
+        <label for="ingredient_type">Type</label>
+        <select name="ingredient_type" class="form-control">
+          <option disabled selected value> -- choose -- </option>
+          <option value="alcohol" <%if (ingredient.ingredient_type === "alcohol"){%>selected<%}%>>Alcohol (ABV: >20%)</option>
+          <option value="liquer" <%if (ingredient.ingredient_type === "liquer"){%>selected<%}%>>Liquer (ABV: >0%)</option>
+          <option value="mixer" <%if (ingredient.ingredient_type === "mixer"){%>selected<%}%>>Mixer (ABV: 0%)</option>
+          <option value="garnish"<%if (ingredient.ingredient_type === "garnish"){%>selected<%}%>>Garnish (ABV: 0%)</option>
+        </select>
+      </div>
+      <div class="col-5">
+        <label for="ingredient_flavor">Flavor</label>
+        <select name="ingredient_flavor" class="form-control">
+          <option disabled selected value> -- choose -- </option>
+          <option value="sweet"  <%if (ingredient.ingredient_flavor === "sweet"){%>selected<%}%>>Sweet</option>
+          <option value="sour"  <%if (ingredient.ingredient_flavor === "sour"){%>selected<%}%>>Sour</option>
+          <option value="bitter" <%if (ingredient.ingredient_flavor === "bitter"){%>selected<%}%>>Bitter</option>
+          <option value="savory"  <%if (ingredient.ingredient_flavor === "savory"){%>selected<%}%>>Savory</option>
+          <option value="spicy" <%if (ingredient.ingredient_flavor === "spicy"){%>selected<%}%>>Spicy</option>
+          <option value="fruity" <%if (ingredient.ingredient_flavor === "fruity"){%>selected<%}%>>Fruity</option>
+        </select>
+      </div>
+    </div>
+    <hr>
+    </div>
  <% })%>
   
 </div>
-
-<div>
-
-  <label for="instructions">instructions</label>
-  <textarea name="instructions"><%-data[0].instructions%></textarea>
-  <hr>
-
-</div>
-<div>
-  <div>
-    <a href="#" id="filldetails" onclick="addFields()">Add Field</a>
-    <a href="#" id="filldetails" onclick="removeField()">Remove Field</a>
-    <hr>
+<div class="row px-3 text-center mb-3">
+  <div class="col ">
+    <a class="btn btn-light" href="#" id="filldetails" onclick="addFields()">More Ings!</a>
   </div>
-  <input type="submit" value="submit">
+  <div class="col">
+    <a class="btn btn-light" href="#" id="filldetails" onclick="removeField()">Less Ings.</a>
+  </div>
 </div>
-</form></body>
+
+
+<div>
+
+  <label for="instructions" class="px-0">How to make it:</label>
+  <textarea class="form-control" name="instructions"><%-data[0].instructions%></textarea>
+  <hr>
+</div>
+
+<div class="row px-3 text-center">
+  <div class="col ">
+    <a class="btn btn-outline-dark" href="/recipes/<%=data[0].recipe_id%>" >Changed my mind</a>
+  </div>
+  <div class="col">
+    <input class="btn btn-dark" type="submit" value="Submit edits">
+  </div>
+  
+</div>
+<div class="row px-3 mt-3"></div>
+
+</form>
+</div>
+</body>
 <script type="text/javascript">
   function addFields () {
     const parent = document.getElementById("ingredients-container")

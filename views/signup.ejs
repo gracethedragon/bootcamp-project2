@@ -6,34 +6,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="/loginstyle.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=League+Spartan:wght@100;200;300;400;500;600;700;800&family=Patua+One&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-  <title>Document</title>
+  <title>Signup!</title>
 </head>
 <body>
-  <div class="container col-8 mt-5">
-    <div class="row text-center">
-      <h2>Join Us!</h2>
-    </div>
+  <div class="content">
+    <h2 class="text_shadows">In Good Spirits</h2>
+  </div>
+  <div class="container px-5 mt-4" id="userdetailscontainer">
+
+    <div class="row" id="userdetails">
+      <div class="column">
   <form action="/signup" method="POST">
-    <div class="row">
-    <label for="email_address">Email</label>
-    <input type="email" name="email_address" /><br/>
+    <div class="row px-2">
+      <label for="email_address">Find me @ .com</label>
+      <input class="form-control" type="email" name="email_address" autocomplete="off" required /><br/>
     </div>
-    <div class="row">
-    <label for="username">Username</label>
-    <input type="text" name="username" /><br />
+    <div class="row px-2">
+      <label for="username">Boozername</label>
+      <input class ="form-control" type="text" name="username" autocomplete="off" required  /><br />
     </div>
-    <div class="row">
-    <label for="password">Password</label>
-    <input type="password" name="password" /><br/>
+    <div class="row px-2">
+      <label for="password">Secret Code</label>
+      <input class="form-control" type="password" name="password" autocomplete="off" required  /><br/>
     </div>
     <!-- repeat password -->
-    <div class="row mt-4">
-    <input class="btn btn-light border-dark col-5" type="submit" value="Submit">
+    <div class="text-center my-3">
+    <input class="btn btn-light" type="submit" value="Let's goooo!">
     </div>
+  
   </form>
+  </div>
+  </div>
   </div>
 </body>
 </html>

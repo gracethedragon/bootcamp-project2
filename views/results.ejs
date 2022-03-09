@@ -1,63 +1,108 @@
 <%-include('header')%>
+<div class="container mt-3">
+  <div class="row px-3 fst-italic fw-light" id="username"><a class="text-end" href="/users/<%=userid%>"
+      style="text-decoration:none;">🍹<%=username%></a>
+  </div>
+  <div class="row text-center px-3"><h1>Search by:</h1></div>
+
+  <div class="row px-3">
+
   <form action="/search" method="POST">
-    <div>
-      <input type="radio" name="search" value="ingredient" onclick=ingredientsClick() id="ingredient-button" required <%if(searchkey === 'ingredient'){%> <%="checked"%> <%}%>>
-      Search by ingredients:<br>
-    </div>
-    <div id="ingredient-input" style=<%if(searchkey === 'ingredient'){%> <%="display:block"%> <%} else {%><%="display:none"%><%}%> >
-      <input type="text" name="ingredient" id="ingredient" <%if(searchkey === 'ingredient'){%> value="<%=searchvalue%>"<%}%>>
-    </div>
-    <div>
-      <input type="radio" name="search" value="flavor" id="flavor-button" onclick=flavorClick() <%if(searchkey === 'flavor'){%> <%="checked"%> <%}%>> Search by flavor:<br>
-    </div>
+    <div><input type="radio" name="search" value="ingredient" onclick=ingredientsClick() id="ingredient-button" required <%if(searchkey === 'ingredient'){%> <%="checked"%> <%}%>>
+      Ingredients<br></div>
+
+    <div id="ingredient-input" style=<%if(searchkey === 'ingredient'){%>    <%="display:block"%> <%} else {%><%="display:none"%><%}%> >
+      <input class="form-control ingredient_name" type="text" name="ingredient" id="ingredient" <%if(searchkey === 'ingredient'){%> value="<%=searchvalue%>"<%}%> autocomplete="off"></div>
+    
+
+    <div><input type="radio" name="search" value="flavor" id="flavor-button" onclick=flavorClick() <%if(searchkey === 'flavor'){%> <%="checked"%> <%}%>> Flavor<br></div>
+
     <div id="flavor-input" style=<%if(searchkey === 'flavor'){%> <%="display:block"%><%}  else {%><%="display:none"%><%}%>>
-      <input type="radio" name="flavor" value="sweet" id="sweet" class="flavor-value" required 
-      <%if(searchkey !== 'flavor'){%>disabled<%}%> 
-      <%if(searchvalue === 'sweet'){%> <%="checked"%> <%}%>>
-      <label for="flavor">sweet</label>
-      <input type="radio" name="flavor" value="sour" id="sour" class="flavor-value" 
-      <%if(searchkey !== 'flavor'){%>disabled<%}%> 
-      <%if(searchvalue === 'sour'){%> <%="checked"%> <%}%>>
-      <label for="flavor">sour</label>
-      <input type="radio" name="flavor" value="bitter" id="bitter" class="flavor-value" 
-      <%if(searchkey !== 'flavor'){%>disabled<%}%> 
-      <%if(searchvalue === 'bitter'){%> <%="checked"%> <%}%>>
-      <label for="flavor">bitter</label>
-      <input type="radio" name="flavor" value="savory" id="savory" class="flavor-value" 
-      <%if(searchkey !== 'flavor'){%>disabled<%}%> 
-      <%if(searchvalue === 'savory'){%> <%="checked"%> <%}%>>
-      <label for="flavor">savory</label>
-      <input type="radio" name="flavor" value="spicy" id="spicy" class="flavor-value" 
-      <%if(searchkey !== 'flavor'){%>disabled<%}%> 
-      <%if(searchvalue === 'spicy'){%> <%="checked"%> <%}%>>
-      <label for="flavor">spicy</label>
-      <input type="radio" name="flavor" value="fruity" id="fruity" class="flavor-value" 
-      <%if(searchkey !== 'flavor'){%>disabled<%}%> 
-      <%if(searchvalue === 'fruity'){%> <%="checked"%> <%}%>>
-      <label for="flavor">fruity</label>
-      <br />
+
+      <div class="col text-center"><input type="radio" name="flavor" value="sweet" id="sweet" class="flavor-value" 
+        <%if(searchkey !== 'flavor'){%>disabled<%}%> 
+        <%if(searchvalue === 'sweet'){%> <%="checked"%> <%}%>>
+        <label for="flavor">Sweet</label>
+        <input type="radio" name="flavor" value="sour" id="sour" class="flavor-value" 
+        <%if(searchkey !== 'flavor'){%>disabled<%}%> 
+        <%if(searchvalue === 'sour'){%> <%="checked"%> <%}%>>
+        <label for="flavor">Sour</label>
+        <input type="radio" name="flavor" value="bitter" id="bitter" class="flavor-value" 
+        <%if(searchkey !== 'flavor'){%>disabled<%}%> 
+        <%if(searchvalue === 'bitter'){%> <%="checked"%> <%}%>>
+        <label for="flavor">Bitter</label></div> 
+
+      <div class="col text-center"><input type="radio" name="flavor" value="savory" id="savory" class="flavor-value" 
+        <%if(searchkey !== 'flavor'){%>disabled<%}%> 
+        <%if(searchvalue === 'savory'){%> <%="checked"%> <%}%>>
+        <label for="flavor">Savory</label>
+        <input type="radio" name="flavor" value="spicy" id="spicy" class="flavor-value" 
+        <%if(searchkey !== 'flavor'){%>disabled<%}%> 
+        <%if(searchvalue === 'spicy'){%> <%="checked"%> <%}%>>
+        <label for="flavor">Spicy</label>
+        <input type="radio" name="flavor" value="fruity" id="fruity" class="flavor-value" 
+        <%if(searchkey !== 'flavor'){%>disabled<%}%> 
+        <%if(searchvalue === 'fruity'){%> <%="checked"%> <%}%>>
+        <label for="flavor">Fruity</label>
+        <br /></div>
     </div>
-    <div>
-      <input type="radio" name="search" value="abv" id="abv-button" onclick=abvClick()  <%if(searchkey === 'overall_abv'){%> <%="checked"%> <%}%>> Search by ABV:<br>
-    </div>
+  
+    <div><input type="radio" name="search" value="abv" id="abv-button" onclick=abvClick() <%if(searchkey === 'overall_abv'){%> <%="checked"%> <%}%>> ABV<br></div>  
+  
     <div id="abv-input" style=<%if(searchkey === 'overall_abv'){%> <%="display:block"%><%}  else {%><%="display:none"%><%}%>>
-      <input type="range" name="abv" min="1" max="100" class="abv" id="range_weight"
+      <input class="form-control abv"  type="range" name="abv" min="1" max="100" id="range_weight"
         <% if(searchkey === 'overall_abv'){%> value="<%=searchvalue%>"<%}%>
         oninput="range_weight_disp.value = range_weight.value + '%'">
-      <output id="range_weight_disp"><% if(searchkey === 'overall_abv'){%><%=searchvalue%><%}%>%</output>
-    </div>
-
-    <div>
-      <input type="submit" value="submit">
-    </div>
-
+      <output id="range_weight_disp"><% if(searchkey === 'overall_abv'){%><%=searchvalue%><%}%>%</output></div>
+  
+    </div> 
+  <div class="row px-3 mt-2 justify-content-center"><input class="form-control btn btn-light w-25" type="submit" value="Leggo"></div>  
   </form>
-<h1>Search Results</h1>
-<% recipes.forEach(recipe=>{ %>
-  <a href="/recipes/<%=recipe.id%>">
-    <%=recipe.name%>, <%=recipe.user_id%>
-  </a><br />
-  <%})%>
+
+  <div class="row px-3 mt-3 "><hr><h1 class="text-center">Search Results</h1>
+  </div>
+
+  <div class="row justify-content-between px-3 mb-2">
+    <div class="dropdown btn col-4 text-start ">
+      <h6 class="text-light">
+        <%=recipes.length%> results
+      </h6>
+    </div>
+    <!-- <div class="dropdown btn text-light col-3 text-end">
+      <h6 class="dropdown-toggle" data-bs-toggle="dropdown">Sort</h6>
+      <div class="dropdown-menu">
+        <a href="/recipes?sort=ascrating" class="dropdown-item">Ratings (lowest to highest)</a>
+        <a href="/recipes?sort=descrating" class="dropdown-item">Ratings (highest to lowest)</a>
+        <a href="/recipes?sort=descdate" class="dropdown-item">Date added (newest to oldest))</a>
+        <a href="/recipes?sort=ascdate" class="dropdown-item">Date added (oldest to newest))</a>
+        <a href="/recipes?sort=ascreviews" class="dropdown-item">Reviews (lowest to highest)</a>
+        <a href="/recipes?sort=descreviews" class="dropdown-item">Reviews (highest to lowest)</a>
+  
+      </div>
+    </div> -->
+  </div>
+
+  <div class="px-3">
+    <% if (recipes.length === 0) {%>
+      <h3 class="mt-2 text-center text-warning">Nothing here</h3>
+      <iframe
+          src="https://giphy.com/embed/fnfONXQS7MmHi2AcsJ"></iframe>
+
+    <%} else { %>
+     <% recipes.forEach(recipe=>{ %>
+       <%if(recipe.reviews> 0) {%>
+        <span class="text-secondary"><a href="/recipes/<%=recipe.id%>">
+            <%=recipe.name%>
+          </a> , <%=recipe.rating%>⭐, <%=recipe.reviews%> reviews</span><br />
+        <%} else {%>
+          <span class="text-secondary"><a href="/recipes/<%=recipe.id%>">
+              <%=recipe.name%>
+            </a>, be the first to review!</span>
+          <br />
+        <%}})%>
+          </div>
+    <% } %>
+</div>
 
 </body>
 <script>
@@ -108,10 +153,14 @@
     let x = document.getElementById('ingredient-input');
     let y = document.getElementById('abv-input');
     let z = document.getElementById('flavor-input');
+    console.log(z)
+    console.log(x)
 
     if (y.style.display === 'none' && abvButton.checked === true) {
       y.style.display = 'block'
       document.getElementsByClassName('abv')[0].disabled = false
+      console.log(z)
+      console.log(x)
       z.style.display = 'none'
       x.style.display = 'none'
       document.getElementById('ingredient').removeAttribute('required')

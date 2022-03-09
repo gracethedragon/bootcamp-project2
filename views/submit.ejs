@@ -1,99 +1,130 @@
 <%-include('header')%>
+<div class="row px-3 fst-italic fw-light pt-3 " id="username"><a class="text-end" href="/users/<%=userid%>"
+    style="text-decoration:none;">🍹<%=username%></a>
+</div>
+<div class="container" id="submitform">
+
 <form action="/submit" method="POST">
-  <label for="recipe_name">recipe name</label>
-  <input type="text", name="recipe_name">
-  <hr> 
-<div id="ingredients-container">
-  <div class="ingredient">
-    
-    <label for="ingredient_type">Type</label>
-    <select name="ingredient_type">
-      <option disabled selected value> -- choose one -- </option>
-      <option value="alcohol">Alcohol (ABV: >20%)</option>
-      <option value="liquer">Liquer (ABV: >0%)</option>
-      <option value="mixer">Mixer (ABV: 0%)</option>
-      <option value="garnish">Garnish (ABV: 0%)</option>
-    </select><br />
-    
-    <label for="ingredient_name">Ingredient Name</label>
-    <input type="text" name="ingredient_name" class="ingredient_name" ><br />
-    
-    <label for="ingredient_flavor">Dominant Flavor Profile</label>
-    <select name="ingredient_flavor">
-      <option disabled selected value> -- choose one -- </option>
-      <option value="sweet" >Sweet</option>
-      <option value="sour" >Sour</option>
-      <option value="bitter" >Bitter</option>
-      <option value="savory">Savory</option>
-      <option value="spicy" >Spicy</option>
-      <option value="fruity">Fruity</option>
-    </select><br />
-
-    <input type="text", name="measurement_name", value="ml" hidden>
-
-    <label for="amount">Amount</label>
-    <input type="number" , name="amount">ml<br />
-    <hr>
+  
+  <div class="row px-3 ">
+    <label for="recipe_name" class="px-0">Whatcha call it:</label>
+    <input type="text" name="recipe_name" class="form-control"  required>
   </div>
 
-  <div class="ingredient">
-  
-    <label for="ingredient_type">Type</label>
-  
-    <select name="ingredient_type">
-      <option disabled selected value> -- choose one -- </option>
-      <option value="alcohol">Alcohol (ABV: >20%)</option>
-      <option value="liquer">Liquer (ABV: >0%)</option>
-      <option value="mixer">Mixer (ABV: 0%)</option>
-      <option value="garnish">Garnish (ABV: 0%)</option>
-    </select><br />
-  
-    <label for="ingredient_name">Ingredient Name</label>
-    <input type="text" , name="ingredient_name"><br />
-  
-    <label for="ingredient_flavor">Dominant Flavor Profile</label>
-    <select name="ingredient_flavor">
-      <option disabled selected value> -- choose one -- </option>
-      <option value="sweet">Sweet</option>
-      <option value="sour">Sour</option>
-      <option value="bitter">Bitter</option>
-      <option value="savory">Savory</option>
-      <option value="spicy">Spicy</option>
-      <option value="fruity">Fruity</option>
-    </select><br />
-  
-    <input type="text" , name="measurement_name" , value="ml" hidden>
-  
-    <label for="amount">Amount</label>
-    <input type="number" , name="amount">ml<br />
-    <hr>
-  </div>
-</div>
-
-<div>
-
-  <label for="instructions">instructions</label>
-  <input type="text" , name="instructions">
   <hr>
-
-</div>
-<div>
-  <div>
-    <a href="#" id="filldetails" onclick="addFields()">Add Field</a>
-    <a href="#" id="filldetails" onclick="removeField()">Remove Field</a>
+  <div id="ingredients-container">
+  <div class="ingredient">
+  <div class="row px-1 mt-1">
+    <div class="col ">
+      <label for="ingredient_name">Ingredient name</label>
+      <input type="text" name="ingredient_name" class="ingredient_name form-control" >  
+    </div> 
+    <div class="col-4">
+      <input type="text" , name="measurement_name" , value="ml" hidden>
+      <label for="amount">Amount</label>
+      <input class="form-control" type="number" placeholder="ml/g", name="amount">
+    </div>
+  </div>
+  <div class="row px-1">
+    <div class="col">
+      <label for="ingredient_type">Type</label>
+      <select name="ingredient_type" class="form-control">
+        <option disabled selected value> -- choose -- </option>
+        <option value="alcohol">Alcohol (ABV: >20%)</option>
+        <option value="liquer">Liquer (ABV: >0%)</option>
+        <option value="mixer">Mixer (ABV: 0%)</option>
+        <option value="garnish">Garnish (ABV: 0%)</option>
+      </select>
+    </div>
+    <div class="col-5">
+      <label for="ingredient_flavor">Flavor</label>
+      <select name="ingredient_flavor" class="form-control">
+        <option disabled selected value> -- choose -- </option>
+        <option value="sweet">Sweet</option>
+        <option value="sour">Sour</option>
+        <option value="bitter">Bitter</option>
+        <option value="savory">Savory</option>
+        <option value="spicy">Spicy</option>
+        <option value="fruity">Fruity</option>
+      </select>
+    </div>
+  </div>
+  <hr>
+  </div>
+  <div class="ingredient">
+    <div class="row px-1 mt-1">
+      <div class="col ">
+        <label for="ingredient_name">Ingredient name</label>
+        <input type="text" name="ingredient_name" class="ingredient_name form-control">
+      </div>
+      <div class="col-4">
+        <input type="text" , name="measurement_name" , value="ml" hidden>
+        <label for="amount">Amount</label>
+        <input class="form-control" type="number" placeholder="ml/g" , name="amount">
+      </div>
+    </div>
+    <div class="row px-1">
+      <div class="col">
+        <label for="ingredient_type">Type</label>
+        <select name="ingredient_type" class="form-control">
+          <option disabled selected value> -- choose -- </option>
+          <option value="alcohol">Alcohol (ABV: >20%)</option>
+          <option value="liquer">Liquer (ABV: >0%)</option>
+          <option value="mixer">Mixer (ABV: 0%)</option>
+          <option value="garnish">Garnish (ABV: 0%)</option>
+        </select>
+      </div>
+      <div class="col-5">
+        <label for="ingredient_flavor">Flavor</label>
+        <select name="ingredient_flavor" class="form-control">
+          <option disabled selected value> -- choose -- </option>
+          <option value="sweet">Sweet</option>
+          <option value="sour">Sour</option>
+          <option value="bitter">Bitter</option>
+          <option value="savory">Savory</option>
+          <option value="spicy">Spicy</option>
+          <option value="fruity">Fruity</option>
+        </select>
+      </div>
+    </div>
     <hr>
   </div>
-  <input type="submit" value="submit">
+  
+  </div>
+
+
+  <div class="row px-3 text-center mb-3">
+    <div class="col ">
+    <a class="btn btn-light" href="#" id="filldetails" onclick="addFields()">More Ings!</a>
+    </div>
+    <div class="col">
+    <a class="btn btn-light" href="#" id="filldetails" onclick="removeField()">Less Ings.</a>
+    </div>  
+    
+  </div>
+  <div class="row px-3 mb-3">
+    <label for="instructions" class="px-0">How to make it:</label>
+    <textarea class="form-control" name="instructions"> </textarea>
+  
+  </div>
+  <div class="row px-3 text-center">
+    <input class="btn btn-dark" type="submit" value="submit">
+  </div>
+  </form>
 </div>
-</form></body>
+</body>
+
 <script type="text/javascript">
   function addFields () {
     const parent = document.getElementById("ingredients-container")
 
     const ingredientDiv = document.getElementsByClassName("ingredient")[0]
 
-    const newIngredientDiv = ingredientDiv.cloneNode(true)
+    console.log(parent)
+    let newIngredientDiv = ingredientDiv.cloneNode(true)
+    
     console.log(ingredientDiv)
+
     parent.appendChild(newIngredientDiv)
   }
 
