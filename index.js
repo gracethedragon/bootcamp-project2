@@ -7,7 +7,7 @@ import methodOverride from 'method-override'
 import moment from 'moment';
 
 
-
+const PORT = process.env.PORT || 3004;
 moment().format();
 const {Pool} = pg
 
@@ -597,4 +597,4 @@ app.post('/search', (req,res)=>{
 
 })
   
-app.listen(3004)
+app.listen(PORT)
