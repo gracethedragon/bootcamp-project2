@@ -11,11 +11,24 @@ const PORT = process.env.PORT || 3004;
 moment().format();
 const {Pool} = pg
 
-const pgConnectionConfigs = {
+let pgConnectionConfigs;
+
+// test to see if the env var is set. Then we know we are in Heroku
+if (process.env.DATABASE_URL) {
+  // pg will take in the entire value and use it to connect
+  pgConnectionConfigs = {
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  };
+} else {
+pgConnectionConfigs = {
   user: 'grace',
   server: 'localhost',
   database: 'project2',
   port: 5432
+}
 }
 
 const pool = new Pool(pgConnectionConfigs)
