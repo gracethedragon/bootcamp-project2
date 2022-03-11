@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rocketacademy/birding-express-bootcamp.git"
+    "url": "git+https://github.com/gracethedragon/bootcamp-project2.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rocketacademy/birding-express-bootcamp/issues"
+    "url": "https://github.com/rocketacademy/heroku-example/issues"
   },
-  "homepage": "https://github.com/rocketacademy/birding-express-bootcamp#readme",
+  "homepage": "https://github.com/rocketacademy/heroku-example#readme",
   "devDependencies": {
     "eslint": "^7.14.0",
     "eslint-config-airbnb-base": "^14.2.1",
