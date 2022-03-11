@@ -13,7 +13,7 @@
 }
 
 body {
-  background-image: url("http://localhost:3004/images/background.png");
+  background-image: url("/images/background.png");
   height: 100%;
   background-position: center;
   background-attachment: fixed;
